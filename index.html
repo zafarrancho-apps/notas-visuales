@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notas visuales — Capítulo Ecuador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efeae1;
+    --paper-deep:#e6e0d4;
+    --ink:#1c1a17;
+    --ink-soft:#5a564d;
+    --indigo:#3a3f7d;
+    --line:rgba(28,26,23,0.12);
+    --spine:rgba(28,26,23,0.28);
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);}
+  img{display:block;max-width:100%;}
+
+  /* ---------- portada / contraportada (cuadradas, fieles al trim del libro) ---------- */
+  .cover-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.6rem;
+    padding:clamp(3.5rem,9vw,6.5rem) 1.5rem clamp(2rem,5vw,3.5rem);
+  }
+  .cover-square{
+    width:100%;
+    max-width:640px;
+    aspect-ratio:1/1;
+    background:var(--paper-deep);
+    overflow:hidden;
+    position:relative;
+  }
+  .cover-square img{width:100%;height:100%;object-fit:cover;}
+  .cover-square .placeholder{
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:.6rem;
+    color:#a9a598;
+    font-family:var(--font-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px dashed var(--line);
+  }
+  .cover-square .placeholder .num{font-family:var(--font-display);font-size:56px;color:#c7c2b3;font-weight:300;}
+  .cover-caption{text-align:center;}
+  .cover-caption h1{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:clamp(1.5rem,3.6vw,2.3rem);
+    margin:0 0 .5rem;
+    line-height:1.1;
+    color:var(--ink);
+  }
+  .cover-caption .author{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .cover-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    opacity:.6;
+  }
+
+  /* ---------- nota del autor ---------- */
+  .nota{
+    max-width:640px;
+    margin:0 auto;
+    padding:clamp(4rem,10vw,7rem) 1.5rem;
+  }
+  .nota .eyebrow{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--indigo);margin-bottom:1.4rem;display:block;
+  }
+  .nota p{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.05rem,2.2vw,1.3rem);
+    line-height:1.65;
+    color:var(--ink);
+    margin:0 0 1.3rem;
+  }
+  .nota .firma{
+    font-family:var(--font-body);
+    font-style:normal;
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-top:2rem;
+  }
+  .nota .draft-flag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:#a05a2c;
+    background:#f3e6d8;
+    border:1px solid #e0c9ab;
+    display:inline-block;
+    padding:.35rem .6rem;
+    border-radius:3px;
+    margin-top:1.5rem;
+  }
+
+  /* ---------- dípticos ---------- */
+  main{padding-bottom:4rem;}
+  .spread{
+    display:flex;
+    align-items:stretch;
+    max-width:1400px;
+    margin:0 auto;
+    padding:clamp(2.2rem,5vw,4rem) clamp(1rem,4vw,2.5rem);
+    gap:0;
+  }
+  .page{
+    flex:1 1 0;
+    aspect-ratio:1/1;
+    background:var(--paper-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6%;
+    position:relative;
+  }
+  .page img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .page .placeholder{
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);color:#a9a598;font-size:12px;
+    border:1px dashed var(--line);
+  }
+  .spine{
+    flex:0 0 18px;
+    background:linear-gradient(to right,
+      rgba(28,26,23,0) 0%,
+      var(--spine) 50%,
+      rgba(28,26,23,0) 100%);
+    opacity:.5;
+  }
+  .folio{
+    position:absolute;
+    bottom:8px;
+    font-family:var(--font-mono);
+    font-size:10px;
+    color:#b7b2a4;
+    letter-spacing:.05em;
+  }
+  .page-left .folio{left:8px;}
+  .page-right .folio{right:8px;}
+
+  /* ---------- colofón / contacto ---------- */
+  .colofon, .contacto{
+    max-width:640px;
+    margin:0 auto;
+    padding:clamp(3rem,8vw,5rem) 1.5rem;
+    border-top:1px solid var(--line);
+  }
+  .colofon h2, .contacto h2{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:1.2rem;
+    margin:0 0 1.2rem;
+  }
+  .colofon dl{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:.5rem 1.5rem;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .colofon dt{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+  .colofon dd{margin:0;}
+  .contacto a{color:var(--indigo);text-decoration:none;border-bottom:1px solid rgba(58,63,125,.35);}
+  .contacto a:hover{border-bottom-color:var(--indigo);}
+  .contacto p{font-size:14px;color:var(--ink-soft);line-height:1.7;}
+
+  /* ---------- contador de folio flotante ---------- */
+  .folio-counter{
+    position:fixed;
+    right:1.2rem;
+    bottom:1.2rem;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    opacity:.55;
+    background:var(--paper);
+    padding:.3rem .55rem;
+    border-radius:2px;
+    pointer-events:none;
+    transition:opacity .3s;
+    z-index:10;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    .spread{flex-direction:column;padding:2.2rem 1rem;gap:.6rem;}
+    .spine{display:none;}
+    .page{aspect-ratio:1/1;padding:7%;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PORTADA ===== -->
+<header class="cover-wrap" id="portada">
+  <span class="cover-label">Portada</span>
+  <div class="cover-square">
+    <img src="images/00-portada.jpg" alt="Portada"
+         onerror="this.parentElement.innerHTML='<div class=\'placeholder\'><span class=\'num\'>00</span><span>Portada — por definir</span></div>'">
+  </div>
+  <div class="cover-caption">
+    <h1>Notas visuales<br>Capítulo Ecuador</h1>
+    <span class="author">Pedro Luis González</span>
+  </div>
+</header>
+
+<!-- ===== NOTA DEL AUTOR (placeholder) ===== -->
+<section class="nota">
+  <span class="eyebrow">Nota del autor</span>
+  <p>Llegué a Ecuador sin saber que me quedaría siete años. Esto no es un portafolio: es lo que queda después de mirar un lugar el tiempo suficiente para dejar de ser turista y todavía no ser de aquí del todo.</p>
+  <p>Cada díptico de este libro junta dos imágenes que no pedí que se parecieran — se encontraron solas, como se encuentran las cosas que uno vive sin planearlas. Hay procesiones y hay ternura, hay mercado y hay niebla, hay ciudad y hay volcán. Ecuador nunca eligió entre esos pares; yo tampoco quise hacerlo por él.</p>
+  <p>Este texto es un marcador de posición. La versión final llevará las experiencias concretas de estos siete años — las que todavía estoy escribiendo.</p>
+  <p class="firma">— Pedro Luis González</p>
+  <span class="draft-flag">Texto placeholder — pendiente de versión final del autor</span>
+</section>
+
+<!-- ===== DÍPTICOS ===== -->
+<main id="dipticos"></main>
+
+<!-- ===== CONTRAPORTADA ===== -->
+<footer class="cover-wrap" id="contraportada">
+  <span class="cover-label">Contraportada</span>
+  <div class="cover-square">
+    <img src="images/99-contraportada.jpg" alt="Contraportada"
+         onerror="this.parentElement.innerHTML='<div class=\'placeholder\'><span class=\'num\'>99</span><span>Contraportada — por definir</span></div>'">
+  </div>
+</footer>
+
+<!-- ===== COLOFÓN ===== -->
+<section class="colofon">
+  <h2>Colofón</h2>
+  <dl>
+    <dt>Título</dt><dd>Notas visuales — Capítulo Ecuador</dd>
+    <dt>Autor</dt><dd>Pedro Luis González</dd>
+    <dt>Formato</dt><dd>Fotolibro, páginas cuadradas</dd>
+    <dt>Año</dt><dd>2026</dd>
+  </dl>
+</section>
+
+<!-- ===== CONTACTO ===== -->
+<section class="contacto">
+  <h2>Contacto</h2>
+  <p>Para consultas sobre este proyecto o la edición impresa:</p>
+  <p><a href="mailto:correo@ejemplo.com">correo@ejemplo.com</a> · <a href="https://instagram.com/usuario_ejemplo" target="_blank" rel="noopener">@usuario_ejemplo</a></p>
+  <p style="font-size:12px;color:#a9a598;">Datos de contacto de ejemplo — reemplazar por los reales de Pedro.</p>
+</section>
+
+<div class="folio-counter" id="folioCounter">01 / 40</div>
+
+<script>
+  // ---- construir los 40 dípticos ----
+  const total = 40;
+  const main = document.getElementById('dipticos');
+  const diptychs = [];
+  for (let i = 1; i <= total; i++){
+    const pad = String(i).padStart(2,'0');
+    if (i === 11){
+      diptychs.push({ folio:i, left: '11-A.jpg', right: '11-BC.jpg' });
+    } else {
+      diptychs.push({ folio:i, left: `${pad}-A.jpg`, right: `${pad}-B.jpg` });
+    }
+  }
+
+  function placeholderHTML(num, side){
+    return `<div class="placeholder">${num}-${side}</div>`;
+  }
+
+  diptychs.forEach(d => {
+    const pad = String(d.folio).padStart(2,'0');
+    const section = document.createElement('section');
+    section.className = 'spread';
+    section.dataset.folio = d.folio;
+    section.innerHTML = `
+      <div class="page page-left">
+        <img src="images/${d.left}" alt="Díptico ${pad}, izquierda"
+             onerror="this.parentElement.innerHTML=placeholderHTML('${pad}','A')">
+        <span class="folio">${pad}</span>
+      </div>
+      <div class="spine"></div>
+      <div class="page page-right">
+        <img src="images/${d.right}" alt="Díptico ${pad}, derecha"
+             onerror="this.parentElement.innerHTML=placeholderHTML('${pad}','B')">
+      </div>
+    `;
+    main.appendChild(section);
+  });
+
+  // ---- contador de folio en scroll ----
+  const counter = document.getElementById('folioCounter');
+  const spreads = document.querySelectorAll('.spread');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        const f = String(e.target.dataset.folio).padStart(2,'0');
+        counter.textContent = `${f} / ${total}`;
+      }
+    });
+  }, { threshold: 0.5 });
+  spreads.forEach(s => io.observe(s));
+
+  const portada = document.getElementById('portada');
+  const contraportada = document.getElementById('contraportada');
+  const ioEdges = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        counter.style.opacity = '0';
+      } else {
+        counter.style.opacity = '.55';
+      }
+    });
+  }, { threshold: 0.6 });
+  ioEdges.observe(portada);
+  ioEdges.observe(contraportada);
+</script>
+
+</body>
+</html>
