@@ -55,9 +55,18 @@
     font-family:var(--font-display);
     font-weight:400;
     font-size:clamp(1.5rem,3.6vw,2.3rem);
-    margin:0 0 .5rem;
+    margin:0 0 .3rem;
     line-height:1.1;
     color:var(--ink);
+  }
+  .cover-caption .subtitle{
+    font-family:var(--font-display);
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(0.95rem,2.1vw,1.2rem);
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    margin:0 0 .8rem;
   }
   .cover-caption .author{
     font-family:var(--font-mono);
@@ -213,7 +222,8 @@
          onerror="this.parentElement.innerHTML='<div class=\'placeholder\'><span class=\'num\'>00</span><span>Portada — por definir</span></div>'">
   </div>
   <div class="cover-caption">
-    <h1>Notas visuales<br>Capítulo Ecuador</h1>
+    <h1>Notas visuales</h1>
+    <p class="subtitle">— Capítulo Ecuador —</p>
     <span class="author">Pedro Luis González</span>
   </div>
 </header>
