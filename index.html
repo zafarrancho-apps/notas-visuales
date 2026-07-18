@@ -145,6 +145,16 @@
     object-fit:contain;
     object-position:center;
   }
+  .page.bleed{
+    padding:0;
+  }
+  .page.bleed img{
+    object-fit:cover;
+  }
+  .page.bleed .folio{
+    color:#efeae1;
+    text-shadow:0 1px 3px rgba(0,0,0,.55);
+  }
   .page .placeholder{
     width:100%;height:100%;
     display:flex;align-items:center;justify-content:center;
@@ -292,7 +302,7 @@
     if (i === 11){
       diptychs.push({ folio:i, left: '11-A.jpg', right: '11-BC.png' });
     } else {
-      diptychs.push({ folio:i, left: `${pad}-A.jpg`, right: `${pad}-B.jpg` });
+      diptychs.push({ folio:i, left: `${pad}-A.jpg`, right: `${pad}-B.jpg`, bleed: i === 10 });
     }
   }
 
@@ -302,17 +312,18 @@
 
   diptychs.forEach(d => {
     const pad = String(d.folio).padStart(2,'0');
+    const bleedClass = d.bleed ? ' bleed' : '';
     const section = document.createElement('section');
     section.className = 'spread';
     section.dataset.folio = d.folio;
     section.innerHTML = `
-      <div class="page page-left">
+      <div class="page page-left${bleedClass}">
         <img src="images/${d.left}" alt="Díptico ${pad}, izquierda"
              onerror="this.parentElement.innerHTML=placeholderHTML('${pad}','A')">
         <span class="folio">${pad}</span>
       </div>
       <div class="spine"></div>
-      <div class="page page-right">
+      <div class="page page-right${bleedClass}">
         <img src="images/${d.right}" alt="Díptico ${pad}, derecha"
              onerror="this.parentElement.innerHTML=placeholderHTML('${pad}','B')">
       </div>
